@@ -15,7 +15,8 @@ role-based authorization, file upload and much more.
         1. [The `app.controller.ts` and `app.service.ts` files](#app.useless)
     1. [Generating our first resource: Posts resource](#posts)
         1. [Basic scaffolding](#posts.scaffolding)
-        1. [`posts.module.ts` file](#posts.module)
+        1. [The `posts.module.ts` file](#posts.module)
+        1. [What is a controller? The `posts.controller.ts` file](#posts.controller)
 
 
 # Introduction <a name="introduction"></a>
@@ -165,6 +166,10 @@ The nest cli can generate all of this using the following commands:
 ~/project_name$ nest g service post
 ```
 
+It is important to run the commands in this order so that the cli tool can add the
+controller and the service automatically to the module. The `nest g module post`
+will also import the `PostModule` inside `AppModule`.
+
 The commands will also create `.spec.ts` files used for testing, we will delete them.
 
 The file structure should look something like this:
@@ -181,4 +186,34 @@ src/
 
 Let's check each file.
 
-### `post.module.ts` file <a name="posts.module"></a>
+### The `post.module.ts` file <a name="posts.module"></a>
+
+```typescript
+import { Module } from '@nestjs/common';
+import { PostController } from './post.controller';
+import { PostService } from './post.service';
+
+@Module({
+  controllers: [PostController],
+  providers: [PostService]
+})
+export class PostModule {}
+```
+
+As you can see the structure is similar to the `AppModule`, it adds the
+generated controller to the controllers array, and the service to the
+providers array.
+
+You can have as many controllers and providers as you want inside a module.
+
+<a name="posts.controller"></a>
+
+### What is a controller? The `post.controller.ts` file
+
+```typescript
+import { Controller } from '@nestjs/common';
+
+@Controller()
+export class PostController {}
+```
+
