@@ -13,7 +13,9 @@ role-based authorization, file upload and much more.
         1. [The `main.ts` file](#main.ts)
         1. [What is a module? The `app.module.ts` file](#app.module.ts)
         1. [The `app.controller.ts` and `app.service.ts` files](#app.useless)
-    1. [The Singleton Architecture](#singleton)
+    1. [Generating our first resource: Posts resource](#posts)
+        1. [Basic scaffolding](#posts.scaffolding)
+        1. [`posts.module.ts` file](#posts.module)
 
 
 # Introduction <a name="introduction"></a>
@@ -146,4 +148,37 @@ usally avoid doing so.
 For this reason I will delete `app.controller.ts` and `app.service.ts`, and
 delete the correlated imports inside the `AppModule`.
 
-### The Singleton Architecture <a name="singleton"></a>
+## Generating our first resource: Posts resource <a name="posts"></a>
+
+### Basic scaffolding <a name="posts.scaffolding"></a>
+
+When you want to create a new resource, you usually need:
+  * `module` - to link together all functionalities
+  * `controller` - to define routes
+  * `service` - to define business logic
+
+The nest cli can generate all of this using the following commands:
+
+```
+~/project_name$ nest g module post
+~/project_name$ nest g controller post
+~/project_name$ nest g service post
+```
+
+The commands will also create `.spec.ts` files used for testing, we will delete them.
+
+The file structure should look something like this:
+
+```
+src/
+ +--post/
+ |  |--post.controller.ts
+ |  |--post.module.ts
+ |  |--post.service.ts
+ |--app.module.ts
+ |--main.ts
+```
+
+Let's check each file.
+
+### `post.module.ts` file <a name="posts.module"></a>
