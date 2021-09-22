@@ -10,8 +10,10 @@ role-based authorization, file upload and much more.
     1. [Installation](#installation)
     1. [Creating a new project](#creation)
     1. [What's inside the project](#inside)
-        1. [The main.ts file](#main.ts)
-        1. [What is a module? The app.module.ts file](#app.module.ts)
+        1. [The `main.ts` file](#main.ts)
+        1. [What is a module? The `app.module.ts` file](#app.module.ts)
+        1. [The `app.controller.ts` and `app.service.ts` files](#app.useless)
+    1. [The Singleton Architecture](#singleton)
 
 
 # Introduction <a name="introduction"></a>
@@ -60,7 +62,7 @@ src/
  |--main.ts
 ```
 
-### The main.ts file <a name="main.ts"></a>
+### The `main.ts` file <a name="main.ts"></a>
 
 The entry point for every nest application is the `main.ts` file,
 this is the file which is run when you start your app.
@@ -83,21 +85,21 @@ packages or global components inside `main.ts`.
 
 The next thing we should look into is the `AppModule`.
 
-### The app.module.ts file <a name="app.module.ts"></a>
+### The `app.module.ts` file <a name="app.module.ts"></a>
 
-First of all, I should define what is a resource. In nest, broadly speaking,
+First of all, I should define what a resource is. In nest, broadly speaking,
 a resource represents everything we need to interact with a table in the database.
 
 For example, a `Post` resource could include:
-  * routes for CRUD operation
+  * routes for CRUD operations
   * a model which defines the `posts` table inside the database
   * components which communicate with the database
   * additional business logic
 
 The module is one of the most important building blocks of any nest application.
-You can think about it like a container which holds every piece of software
+You can think of it like a container which holds every piece of software
 required by a resource to function properly. It does not implement any kind of
-logic by itself, but it couples everything togheter.
+logic by itself, but it couples everything together.
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -108,9 +110,40 @@ import { AppService } from './app.service';
   imports: [],
   controllers: [AppController],
   providers: [AppService],
-  exports: [],
+  exports: [AppService],
 })
 export class AppModule {}
 ```
 
+In the module decorator you can pass a `ModuleMetadata` object, which has 4 fields
+all of them being optional:
+  * `imports: []` - you can import other modules in order to use functionalities of
+  the imported modules
+  * `controllers: []` - they define routes for your resources
+  * `providers: []` - they define business logic and database communication
+  * `exports: []` - if you want a provider defined in module `A` to be
+  used in module `B` you must export the provider and import module `A`
+  in module `B`
 
+We will go more in depth into `controllers` and `providers` in the following chapters.
+
+**Important!!!**
+
+The `AppModule` is the root module of any nest application, this means that
+`AppModule` is the first module loaded in memory and all other modules are loaded
+only if they appear in the `imports: []` field of the `AppModule`.
+So every module you create must be imported to `AppModule`.
+
+### The `app.controller.ts` and `app.service.ts` files <a name="app.useless"></a>
+
+In this tutorial, and most other projects, we will not use these files. The reason
+for this is that `providers` and `controllers` are usually grouped together to offer
+functionalities to a resource, but the `AppModule` is mostly a big container for our
+application, it should not implement any kind of logic. There isn't any kind of rule
+that prohibits defining `controllers` and `providers` for the `AppModule`, but I
+usally avoid doing so.
+
+For this reason I will delete `app.controller.ts` and `app.service.ts`, and
+delete the correlated imports inside the `AppModule`.
+
+### The Singleton Architecture <a name="singleton"></a>
