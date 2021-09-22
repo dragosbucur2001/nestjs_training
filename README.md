@@ -10,14 +10,16 @@ role-based authorization, file upload and much more.
     1. [Installation](#installation)
     1. [Creating a new project](#creation)
     1. [What's inside the project](#inside)
+        1. [The main.ts file](#main.ts)
+        1. [What is a module? The app.module.ts file](#app.module.ts)
 
 
-## Introduction <a name="introduction"></a>
+# Introduction <a name="introduction"></a>
 
 This chapter will cover the basics of NestJS
 
 
-### NestJs CLI Installation <a name="installation"></a>
+## NestJs CLI Installation <a name="installation"></a>
 
 The first step is to install the nestjs cli, which is used to
 create and run projects, and create resources inside your nestjs project.
@@ -27,7 +29,7 @@ This will install the cli globally, which means that you can run
 nest cli commands in any folder using the `nest` command.
 
 
-### Creating a new project <a name="creation"></a>
+## Creating a new project <a name="creation"></a>
 
 To create a new nest project you can simply execute `nest new project_name`
 where project_name is the name of your project.. pretty self-explanatory.
@@ -37,7 +39,7 @@ you want to use `npm` or `yarn`, choose your favorite
 (I will chose npm in this tutorial).
 
 
-### What's inside the project <a name="inside"></a>
+## What's inside the project <a name="inside"></a>
 
 When you open the project folder you can see that nest generated
 a basic scaffold for us inside the `src` folder, and also installed all
@@ -58,6 +60,8 @@ src/
  |--main.ts
 ```
 
+### The main.ts file <a name="main.ts"></a>
+
 The entry point for every nest application is the `main.ts` file,
 this is the file which is run when you start your app.
 
@@ -71,4 +75,42 @@ async function bootstrap() {
 }
 bootstrap();
 ```
-As you can see,
+
+As you can see, the only function declared inside it is responsible for
+loading our application into memory (the `app` variable) and then declaring on what
+port it should listen to. In the future, we will also declare/initiate other
+packages or global components inside `main.ts`.
+
+The next thing we should look into is the `AppModule`.
+
+### The app.module.ts file <a name="app.module.ts"></a>
+
+First of all, I should define what is a resource. In nest, broadly speaking,
+a resource represents everything we need to interact with a table in the database.
+
+For example, a `Post` resource could include:
+  * routes for CRUD operation
+  * a model which defines the `posts` table inside the database
+  * components which communicate with the database
+  * additional business logic
+
+The module is one of the most important building blocks of any nest application.
+You can think about it like a container which holds every piece of software
+required by a resource to function properly. It does not implement any kind of
+logic by itself, but it couples everything togheter.
+
+```typescript
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
+@Module({
+  imports: [],
+  controllers: [AppController],
+  providers: [AppService],
+  exports: [],
+})
+export class AppModule {}
+```
+
+
