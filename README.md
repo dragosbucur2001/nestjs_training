@@ -13,10 +13,10 @@ role-based authorization, file upload and much more.
         1. [The `main.ts` file](#main.ts)
         1. [What is a module? The `app.module.ts` file](#app.module.ts)
         1. [The `app.controller.ts` and `app.service.ts` files](#app.useless)
-    1. [Generating our first resource: Posts resource](#posts)
-        1. [Basic scaffolding](#posts.scaffolding)
-        1. [The `posts.module.ts` file](#posts.module)
-        1. [What is a controller? The `posts.controller.ts` file](#posts.controller)
+1. [Generating our first resource: Posts resource](#posts)
+    1. [Basic scaffolding](#posts.scaffolding)
+    1. [The `posts.module.ts` file](#posts.module)
+    1. [What is a controller? The `posts.controller.ts` file](#posts.controller)
 
 
 # Introduction <a name="introduction"></a>
