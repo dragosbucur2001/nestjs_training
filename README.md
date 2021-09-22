@@ -149,9 +149,9 @@ usally avoid doing so.
 For this reason I will delete `app.controller.ts` and `app.service.ts`, and
 delete the correlated imports inside the `AppModule`.
 
-## Generating our first resource: Posts resource <a name="posts"></a>
+# Generating our first resource: Posts resource <a name="posts"></a>
 
-### Basic scaffolding <a name="posts.scaffolding"></a>
+## Basic scaffolding <a name="posts.scaffolding"></a>
 
 When you want to create a new resource, you usually need:
   * `module` - to link together all functionalities
@@ -186,7 +186,7 @@ src/
 
 Let's check each file.
 
-### The `post.module.ts` file <a name="posts.module"></a>
+## The `post.module.ts` file <a name="posts.module"></a>
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -208,7 +208,7 @@ You can have as many controllers and providers as you want inside a module.
 
 <a name="posts.controller"></a>
 
-### What is a controller? The `post.controller.ts` file
+## What is a controller? The `post.controller.ts` file
 
 ```typescript
 import { Controller } from '@nestjs/common';
