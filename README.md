@@ -17,6 +17,7 @@ role-based authorization, file upload and much more.
     1. [Basic scaffolding](#posts.scaffolding)
     1. [The `posts.module.ts` file](#posts.module)
     1. [What is a controller? The `posts.controller.ts` file](#posts.controller)
+        1. [Defining `GET` routes](#posts.get)
 
 
 # Introduction <a name="introduction"></a>
@@ -217,3 +218,89 @@ import { Controller } from '@nestjs/common';
 export class PostController {}
 ```
 
+A controller is simply a class that is decorated with the `@Controller()` decorator.
+The controller is responsible for declaring the routes through which you can
+interact with the resource.
+
+You can define a route by declaring a function which will be responsible for
+handling the request and decorate the function with one of the HTTP Request
+Method decorators (you will see what are those in a minute).
+
+### Defining `GET` routes <a name="posts.get"></a>
+
+You can define a `GET` route by defining a function and decorating it with a
+`@Get()` decorator. Inside the parentheses you can pass a string which represents
+the path for your route.
+
+```typescript
+import { Controller, Get } from '@nestjs/common';
+
+@Controller()
+export class PostController {
+    @Get('posts') // or @Get('/posts') the first / can be omitted
+    getPosts() {
+        return "Handle GET /posts request";
+    }
+}
+```
+
+Now, when a `GET /posts` request will be received by the server it will call the
+`getPosts()` method.
+
+If you want to nest routes you can simply add slashes inside the path string like
+so: `@Get('nested/path/to/wherever')`
+
+#### Parameters
+
+At some point you will need to handle parameters in your path to create dynamic
+urls. You can define a parameter inside a path string by preceeding it with `:`.
+
+```typescript
+@Get('/posts/:id/:other_id')
+getPostById(@Param() params) {
+  return params.id + params.other_id;
+}
+```
+
+In the route defined above, `id` and `other_id` are parameters. You can access
+parameters using the `@Param()` decorator, which should be added to the method
+signature. `params` is an object which contains all of the defined parameters.
+
+If you need only one parameter, instead of working with the whole parameter
+object, you can specify the parameter you want to retrieve inside the parentheses
+of the `@Param()` decorator.
+
+```typescript
+@Get('/posts/:first_param/:second_param')
+getPostById(
+  @Param('first_param') only_the_first_param,
+  @Param() all_params
+) {
+  return only_the_first_param +
+         all_params.first_param
+         all_params.second_param;
+}
+```
+
+#### Query Parameters
+
+You will also need to handle query parameters, you can access them using the
+`@Query()` decorator, which works identical to the `@Param()` decorator.
+
+```typescript
+@Get('/posts')
+getPostById(@Query() query) {
+  return query.first_query +
+         query.second_query +
+         query.other_query;
+}
+```
+
+For example, if the server would receive a request:
+
+`GET /posts?first_query=ceva&second_query=altceva`
+
+Then:
+  * `query.first_query` will hold `'ceva'`
+  * `query.second_query` will hold `'altceva'`
+  * `query.other_query` will hold `undefined`

@@ -1,4 +1,14 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 
-@Controller('post')
-export class PostController {}
+@Controller()
+export class PostController {
+    @Get('posts')
+    getPosts(@Query() query) {
+        return query.non === undefined;
+    }
+
+    @Get('/posts/:id')
+    getPostById(@Param() param) {
+      return param.id;
+    }
+}
